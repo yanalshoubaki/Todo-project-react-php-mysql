@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPen } from "@fortawesome/free-solid-svg-icons";
 const TodoEdit = (props) => {
-  console.log(props);
   const [taskName, SetTaskName] = useState("");
   return (
     <div className="list-item">
@@ -16,7 +15,6 @@ const TodoEdit = (props) => {
         className="edit-button"
         onClick={(e) => {
           e.preventDefault();
-          console.log(taskName);
           props.onUpdate({
             task_id: props.content.task_id,
             task_name: taskName,
@@ -42,7 +40,6 @@ const TodoPreview = (props) => {
           parseInt(props.content.task_status) === 1 ? true : false
         }
         onClick={(e) => {
-          console.log(e.target.checked);
           props.onCheck({
             task_id: props.content.task_id,
             task_status: e.target.checked,

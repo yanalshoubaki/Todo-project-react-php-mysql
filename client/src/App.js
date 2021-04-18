@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
 import DarkMode from "./components/DarkMode";
+const URL = `http://localhost/todo-project-react-php-mysql/api/v1/todoapi/todo.php`;
 class App extends Component {
   state = {
     tasks: [],
@@ -13,8 +14,7 @@ class App extends Component {
 
   getData = () => {
     axios({
-      url:
-        "http://localhost/todo-project-react-php-mysql/api/v1/todoapi/todo.php",
+      url: URL,
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -45,8 +45,7 @@ class App extends Component {
   };
   handleDelete = (task_id) => {
     axios({
-      url:
-        "http://localhost/todo-project-react-php-mysql/api/v1/todoapi/todo.php",
+      url: URL,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,8 +66,7 @@ class App extends Component {
   };
   handleCheck = (task) => {
     axios({
-      url:
-        "http://localhost/todo-project-react-php-mysql/api/v1/todoapi/todo.php",
+      url: URL,
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -80,8 +78,8 @@ class App extends Component {
       },
     })
       .then((response) => {
-        var index = this.state.tasks.filter((taske) => {
-          if (taske.task_id == task.task_id) {
+        this.state.tasks.filter((taske) => {
+          if (taske.task_id === task.task_id) {
             taske.task_status = task.task_status ? 1 : 0;
             console.log(taske.task_status);
           }
@@ -96,13 +94,13 @@ class App extends Component {
     var index = this.state.tasks.findIndex((x) => x.task_id === data.task_id);
     if (index === -1) {
     } else {
-      const taskUpdate = this.state.tasks.map((task) => {
+      this.state.tasks.map((task) => {
         if (task.task_id === data.task_id) {
-          if (data.task_name === task.task_name) {
+          if (data.task_name === task.task_name || data.task_name === "") {
+            this.setState({ update: { task_id: null, edit: false } });
           } else {
             axios({
-              url:
-                "http://localhost/todo-project-react-php-mysql/api/v1/todoapi/todo.php",
+              url: URL,
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -110,7 +108,7 @@ class App extends Component {
               data: {
                 action: "update",
                 task_id: task.task_id,
-                task_name: task.task_name,
+                task_name: data.task_name,
               },
             })
               .then((response) => {
